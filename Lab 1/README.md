@@ -68,8 +68,18 @@ _Activity:_ What is happening between the actors?
 _Goals:_ What are the goals of each player? (e.g., jumping to a tree, opening the fridge). 
 
 The interactive device can be anything *except* a computer, a tablet computer or a smart phone, but the main way it interacts needs to be using light.
+_Smart Pot:_ This pot will measure the soil moisture continuously and relay back the status through an LED ring on the top lip. This LED ring will change color gradually with respect to the soil moisture and will go through a color spectrum of green (100% moisture), yellow (50% moisture), and red (0% moisture).
 
 \*\***Describe your setting, players, activity and goals here.**\*\*
+_Setting:_ Around the house probably sometime in the afternoon.
+
+_Players:_ Since this is a device to be used in a household, theoretically the players can include any demographic, but the device is meant to mainly interact with the person watering/taking care of the plants.
+
+_Activity:_ What is happening between the actors?
+The user is to observe the status of the soil moisture through the pot's display light and, if needed, water the plant.
+
+_Goals:_ What are the goals of each player? (e.g., jumping to a tree, opening the fridge). 
+The goal of the user is to easily take care of their plants by not underwatering or overwatering them.
 
 Storyboards are a tool for visually exploring a users interaction with a device. They are a fast and cheap method to understand user flow, and iterate on a design before attempting to build on it. Take some time to read through this explanation of [storyboarding in UX design](https://www.smashingmagazine.com/2017/10/storyboarding-ux-design/). Sketch seven storyboards of the interactions you are planning. **It does not need to be perfect**, but must get across the behavior of the interactive device and the other characters in the scene. 
 
