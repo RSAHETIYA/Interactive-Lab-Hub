@@ -68,12 +68,14 @@ _Activity:_ What is happening between the actors?
 _Goals:_ What are the goals of each player? (e.g., jumping to a tree, opening the fridge). 
 
 The interactive device can be anything *except* a computer, a tablet computer or a smart phone, but the main way it interacts needs to be using light.
+
 _Smart Pot:_ This pot will measure the soil moisture continuously and relay back the status through an LED ring on the top lip. This LED ring will change color gradually with respect to the soil moisture and will go through a color spectrum of green (100% moisture), yellow (50% moisture), and red (0% moisture).
 
 \*\***Describe your setting, players, activity and goals here.**\*\*
+
 _Setting:_ Around the house probably sometime in the afternoon.
 
-_Players:_ Since this is a device to be used in a household, theoretically the players can include any demographic, but the device is meant to mainly interact with the person watering/taking care of the plants.
+_Players:_ Since this is a device to be used in a household, the hypothetical players can include any demographic, but the device is meant to mainly interact with the person watering/taking care of the plants.
 
 _Activity:_ What is happening between the actors?
 The user is to observe the status of the soil moisture through the pot's display light and, if needed, water the plant.
@@ -85,9 +87,13 @@ Storyboards are a tool for visually exploring a users interaction with a device.
 
 \*\***Include pictures of your storyboards here**\*\*
 
+![Storyboard](media/storyboard.jpg)
+
 Present your ideas to the other people in your breakout room (or in small groups). You can just get feedback from one another or you can work together on the other parts of the lab.
 
 \*\***Summarize feedback you got here.**\*\*
+
+--
 
 
 ## Part B. Act out the Interaction
@@ -96,7 +102,11 @@ Try physically acting out the interaction you planned. For now, you can just pre
 
 \*\***Are there things that seemed better on paper than acted out?**\*\*
 
+--
+
 \*\***Are there new ideas that occur to you or your collaborators that come up from the acting?**\*\*
+
+--
 
 
 ## Part C. Prototype the device
@@ -111,15 +121,21 @@ If you run into technical issues with this tool, you can also use a light switch
 
 \*\***Give us feedback on Tinkerbelle.**\*\*
 
+--
+
 
 ## Part D. Wizard the device
 Take a little time to set up the wizarding set-up that allows for someone to remotely control the device while someone acts with it. Hint: You can use Zoom to record videos, and you can pin someone’s video feed if that is the scene which you want to record. 
 
 \*\***Include your first attempts at recording the set-up video here.**\*\*
 
+--
+
 Now, hange the goal within the same setting, and update the interaction with the paper prototype. 
 
 \*\***Show the follow-up work here.**\*\*
+
+--
 
 
 ## Part E. Costume the device
@@ -130,17 +146,22 @@ Think about the setting of the device: is the environment a place where the devi
 
 \*\***Include sketches of what your devices might look like here.**\*\*
 
+![Sketch](media/sketches.jpeg)
+
 \*\***What concerns or opportunitities are influencing the way you've designed the device to look?**\*\*
 
+With respect to the LED, it follows the classic color spectrum of red, yellow, green (like a traffic light), and each color represents its corresponding connotation. Other than that, the device follows the classic look of a planting pot.
 
 ## Part F. Record
 
 \*\***Take a video of your prototyped interaction.**\*\*
 
+[video](https://www.youtube.com/watch?v=qjlqsSYkm5A)
+
 \*\***Please indicate anyone you collaborated with on this Lab.**\*\*
 Be generous in acknowledging their contributions! And also recognizing any other influences (e.g. from YouTube, Github, Twitter) that informed your design. 
 
-
+--
 
 # Staging Interaction, Part 2 
 
