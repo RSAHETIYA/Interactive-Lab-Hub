@@ -174,6 +174,8 @@ You will be assigned three partners from another group. Go to their github pages
 
 \*\***Summarize feedback from your partners here.**\*\*
 
+Feedback summarized within Part 2.
+
 ## Make it your own
 
 Do last week’s assignment again, but this time: 
