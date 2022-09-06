@@ -179,6 +179,113 @@ You will be assigned three partners from another group. Go to their github pages
 Do last week’s assignment again, but this time: 
 1) It doesn’t have to (just) use light, 
 2) You can use any modality (e.g., vibration, sound) to prototype the behaviors! Again, be creative! Feel free to fork and modify the tinkerbell code! 
-3) We will be grading with an emphasis on creativity. 
+3) We will be grading with an emphasis on creativity.
 
 \*\***Document everything here. (Particularly, we would like to see the storyboard and video, although photos of the prototype are also great.)**\*\*
+
+## Part A. Plan 
+
+\*\***Device**\*\*
+
+_Device:_ The interactive device being made is a smart plant pot. The pot will contain a display light around the top that will convey the status of the soil moisture by emitting different colors through the light. The soil moisture will be measured through an internal sensor periodically. There will be two types of the pot: an indoor version that is AC powered through a wall adapter and an outdoor verison that is remotely powered through a battery pack. Additionally, the pot will contain a slider switch for a low/medium/high soil moisture setting to account for different plant types. It will also feature an ability to interact with a watering can through bluetooth. If the user chooses to use the watering can to water the plant, it will will give haptic feedback to indicate when the user is close to overwatering the plant.
+
+\*\***Describe your setting, players, activity and goals here.**\*\*
+
+_Setting:_ Residential areas (outdoors or indoors).
+
+_Players:_ Since the pot is to be used within or close to a residential area, the hypothetical players that interact with it can include any demographic. However, the device is intended to mainly interact with the person watering/taking care of the plants.
+
+_Activity:_ What is happening between the actors?
+The person taking care of the plants is to observe the status of the soil moisture through the pot's display light and, if needed, water the plant.
+
+_Goals:_ What are the goals of each player? (e.g., jumping to a tree, opening the fridge). 
+The goal of the user is to easily take care of their plants by not underwatering or overwatering them.
+
+\*\***Include pictures of your storyboards here**\*\*
+
+![Storyboard](media/storyboardP2.jpeg)
+
+_Storyboard Description:_
+1. User walks by the plant and sees that the moisture level is high.
+2. User walks by the plant and sees the moisture level has started to fall, but it is still in the "good" zone.
+3. User walks by the plant and sees the plant is in need of watering. However, user is in a rush, and is unable to currently water the plant. The user does know based on the current LED signal that the plant is not in drastic danger yet.
+4. User is finally able to water the plant before it reaches critical condition.
+5. User starts watering the plant and observes the LED returning back to a green condition.
+6. User has reached the point at which the plant is in danger of being overwatered. User feels a vibration from the watering can, and the pot starts to blink blue as well.
+7. User has stopped watering the plant, and the LED indicates a high moisture level.
+
+\*\***Summarize feedback you got here.**\*\*
+
+- How will you sense the change in soil moisture? Will it be dynamic or programmed in at the start?
+    - The change in soil moisture will be sensed through an internal soil moisture sensor. It will be mostly automatic with the exception of the user indicating what level of soil mositure the plant "prefers"/needs.  
+- Can you only use it indoors? If possible to use outdoors, how will it interact with the rain?
+    - There will be an outdoor version; however, the only difference will be in how the pot is powered. In respect to interacting with the rain, since the pot will have an internal sensor measuring periodically, it should not be any different than watering the plant manually.
+- Any other senses you can tap into?
+    - Yes, I will be using haptic feedback at touch on the watering can. I am hesitant on using an alarm or any sound, as I feel if a continuous alarm was beeping if the moisture level was low, it would be more annoying than helpful.
+- Helpful device.
+    - Thanks :D.
+
+## Part B. Act out the Interaction
+
+Try physically acting out the interaction you planned. For now, you can just pretend the device is doing the things you’ve scripted for it. 
+
+\*\***Are there things that seemed better on paper than acted out?**\*\*
+
+At the moment, not really. The only cumbersome task for the user is holding the watering can during the vibration. Since I cannot simulate an real vibration on the handle, I am unable to judge how strong or weak it will need to be. I do think a level similar to a phone's vibration during a notification is significant enough, or perhaps an even lower level can be used, as the watering can will directly be in the user's hands as opposed to a phone being in someone's pocket, backpack, etc.
+
+\*\***Are there new ideas that occur to you or your collaborators that come up from the acting?**\*\*
+
+No new ideas, although the sound option (alarm) was revisited. However, for the most part, it was agreed upon that this would make the device more intrusive and annoying.
+
+## Part C. Prototype the device
+
+You will be using your smartphone as a stand-in for the device you are prototyping. You will use the browser of your smart phone to act as a “light” and use a remote control interface to remotely change the light on that device. 
+
+Code for the "Tinkerbelle" tool, and instructions for setting up the server and your phone are [here](https://github.com/FAR-Lab/tinkerbelle).
+
+We invented this tool for this lab! 
+
+If you run into technical issues with this tool, you can also use a light switch, dimmer, etc. that you can can manually or remotely control.
+
+\*\***Give us feedback on Tinkerbelle.**\*\*
+
+It would be nice if you could program a sequence of colors to play automatically. However, I understand that is outside of the scope and probably defeats some of the purpose of manually acting out the interaction.
+
+## Part D. Wizard the device
+Take a little time to set up the wizarding set-up that allows for someone to remotely control the device while someone acts with it. Hint: You can use Zoom to record videos, and you can pin someone’s video feed if that is the scene which you want to record. 
+
+\*\***Include your first attempts at recording the set-up video here.**\*\*
+
+-- Same recording set up as Part 1
+
+Now, hange the goal within the same setting, and update the interaction with the paper prototype. 
+
+\*\***Show the follow-up work here.**\*\*
+
+-- Same recording set up as Part 1
+
+## Part E. Costume the device
+
+Only now should you start worrying about what the device should look like. Develop three costumes so that you can use your phone as this device.
+
+Think about the setting of the device: is the environment a place where the device could overheat? Is water a danger? Does it need to have bright colors in an emergency setting?
+
+\*\***Include sketches of what your devices might look like here.**\*\*
+
+![Sketch](media/sketchesP2.jpeg)
+
+\*\***What concerns or opportunitities are influencing the way you've designed the device to look?**\*\*
+
+As with Part 1, the LED follows the classic color spectrum of red, yellow, green (like a traffic light), and each color represents its corresponding connotation. The LED will also now blink blue when the pot is getting close to being overwatered, as I felt this would be a good color to contrast with green and is also associated naturally with water. The smart pot still follows the classic look of a planting pot. The watering can also looks like a traditional watering can with the addition of a rubberized grip on the handle for haptic feedback.
+
+## Part F. Record
+
+\*\***Take a video of your prototyped interaction.**\*\*
+
+[Link to video](https://youtu.be/ViYKUVQYG-o)
+
+\*\***Please indicate anyone you collaborated with on this Lab.**\*\*
+Be generous in acknowledging their contributions! And also recognizing any other influences (e.g. from YouTube, Github, Twitter) that informed your design. 
+
+I would like to thank my classmates and group members who have provided me with much feedback that has helped me improve upon the device and create a better second iteration.
+
