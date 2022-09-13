@@ -184,12 +184,67 @@ Does time have to be linear?  How do you measure a year? [In daylights? In midni
 
 Can you make time interactive? You can look in `screen_test.py` for examples for how to use the buttons.
 
+```
+Three different "water" pots that fill up based on time. There will be a corresponding one for hours, min, and sec. There will also be a binary subsection of the display for fast and precise telling of time if needed. The binary will only be used to represent hours. 
+```
+
 Please sketch/diagram your clock idea. (Try using a [Verplank digram](http://www.billverplank.com/IxDSketchBook.pdf)!
+
+![Sketch](sketch.jpeg)
 
 **We strongly discourage and will reject the results of literal digital or analog clock display.**
 
 
 \*\*\***A copy of your code should be in your Lab 2 Github repo.**\*\*\*
+
+Entire code integration is located within screen_clock.py 
+```
+draw.line([(210, height-11), (230, height-11)], fill=(255, 0, 0))
+draw.line([(210, height-11), (210, height-70)], fill=(255, 0, 0))
+draw.line([(230, height-11), (230, height-70)], fill=(255, 0, 0))
+
+draw.line([(130, height-11), (170, height-11)], fill=(255, 255, 0))
+draw.line([(130, height-11), (130, height-80)], fill=(255, 255, 0))
+draw.line([(170, height-11), (170, height-80)], fill=(255, 255, 0))
+
+draw.line([(10, height-11), (100, height-11)], fill=(0, 255, 0))
+draw.line([(10, height-11), (10, height-90)], fill=(0, 255, 0))
+draw.line([(100, height-11), (100, height-90)], fill=(0, 255, 0))
+
+now = datetime.datetime.now().time()
+hour = now.hour + 10
+binaryhour = bin(hour).replace("0b", "").zfill(5)
+
+if binaryhour[4] == "1":
+    draw.line([(230, 10), (225, 10)], fill=(0, 0, 255)) 
+else:
+    draw.line([(230, 10), (225, 10)], fill=(255, 0, 0)) 
+if binaryhour[3] == "1":
+    draw.line([(215, 10), (210, 10)], fill=(0, 0, 255)) 
+else:
+    draw.line([(215, 10), (210, 10)], fill=(255, 0, 0))
+if binaryhour[2] == "1":
+    draw.line([(200, 10), (195, 10)], fill=(0, 0, 255))
+else:
+      draw.line([(200, 10), (195, 10)], fill=(255, 0, 0))
+if binaryhour[1] == "1":
+    draw.line([(185, 10), (180, 10)], fill=(0, 0, 255)) 
+else:
+    draw.line([(185, 10), (180, 10)], fill=(255, 0, 0)) 
+if binaryhour[0] == "1":
+    draw.line([(170, 10), (165, 10)], fill=(0, 0, 255)) 
+else:
+    draw.line([(170, 10), (165, 10)], fill=(255, 0, 0)) 
+
+for i in range(hour * 3):
+    draw.line([(11, height-12-i), (99, height-12-i)], fill=(0, 0, 255))
+
+for i in range(now.minute):
+    draw.line([(131, height-12-i), (169, height-12-i)], fill=(0, 0, 255))
+
+for i in range(now.second):
+    draw.line([(211, height-12-i), (229, height-12-i)], fill=(0, 0, 255))
+```
 
 After you edit and work on the scripts for Lab 2, the files should be upload back to your own GitHub repo! You can push to your personal github repo by adding the files here, commiting and pushing.
 
@@ -207,9 +262,19 @@ After that, Git will ask you to login to your GitHub account to push the updates
 
 \*\*\***Take a video of your PiClock.**\*\*\*
 
+[Link to Video](https://youtube.com/shorts/5KK4k9H3ito?feature=share)
+
 ## Part G. 
 ## Sketch and brainstorm further interactions and features you would like for your clock for Part 2.
 
+```
+- Add an animation for water overflow to go to next larger pot.
+- Create interactive portions of the clock with the buttons and have button press trigger pouring of small pot into larger pot.
+- Use binary representations of minutes and second as well ... although would be very close to a normal clock at that point.
+- Add in aesthetics: maybe a plant grows throughout the day as water is added.
+```
+
+![Sketch](sketchG.jpeg)
 
 # Prep for Part 2
 

@@ -4,6 +4,7 @@ import digitalio
 import board
 from PIL import Image, ImageDraw, ImageFont
 import adafruit_rgb_display.st7789 as st7789
+import datetime
 
 # Configuration for CS and DC pins (these are FeatherWing defaults on M0/M4):
 cs_pin = digitalio.DigitalInOut(board.CE0)
@@ -65,6 +66,56 @@ while True:
     draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
     #TODO: Lab 2 part D work should be filled in here. You should be able to look in cli_clock.py and stats.py 
+    y = top
+    draw.text((5, 5), "HI :D", font=font, fill=(255, 255, 255))
+
+    draw.line([(210, height-11), (230, height-11)], fill=(255, 0, 0))
+    draw.line([(210, height-11), (210, height-70)], fill=(255, 0, 0))
+    draw.line([(230, height-11), (230, height-70)], fill=(255, 0, 0))
+
+    draw.line([(130, height-11), (170, height-11)], fill=(255, 255, 0))
+    draw.line([(130, height-11), (130, height-80)], fill=(255, 255, 0))
+    draw.line([(170, height-11), (170, height-80)], fill=(255, 255, 0))
+
+    draw.line([(10, height-11), (100, height-11)], fill=(0, 255, 0))
+    draw.line([(10, height-11), (10, height-90)], fill=(0, 255, 0))
+    draw.line([(100, height-11), (100, height-90)], fill=(0, 255, 0))
+
+    now = datetime.datetime.now().time()
+    hour = now.hour + 10
+    binaryhour = bin(hour).replace("0b", "").zfill(5)
+
+    if binaryhour[4] == "1":
+        draw.line([(230, 10), (225, 10)], fill=(0, 0, 255)) 
+    else:
+        draw.line([(230, 10), (225, 10)], fill=(255, 0, 0)) 
+    if binaryhour[3] == "1":
+        draw.line([(215, 10), (210, 10)], fill=(0, 0, 255)) 
+    else:
+        draw.line([(215, 10), (210, 10)], fill=(255, 0, 0))
+    if binaryhour[2] == "1":
+        draw.line([(200, 10), (195, 10)], fill=(0, 0, 255))
+    else:
+         draw.line([(200, 10), (195, 10)], fill=(255, 0, 0))
+    if binaryhour[1] == "1":
+        draw.line([(185, 10), (180, 10)], fill=(0, 0, 255)) 
+    else:
+        draw.line([(185, 10), (180, 10)], fill=(255, 0, 0)) 
+    if binaryhour[0] == "1":
+        draw.line([(170, 10), (165, 10)], fill=(0, 0, 255)) 
+    else:
+        draw.line([(170, 10), (165, 10)], fill=(255, 0, 0)) 
+
+    for i in range(hour * 3):
+        draw.line([(11, height-12-i), (99, height-12-i)], fill=(0, 0, 255))
+
+    for i in range(now.minute):
+        draw.line([(131, height-12-i), (169, height-12-i)], fill=(0, 0, 255))
+    
+    for i in range(now.second):
+        draw.line([(211, height-12-i), (229, height-12-i)], fill=(0, 0, 255))
+
+    #print(now.time().hour + now.time().minute + now.time().second)
 
     # Display image.
     disp.image(image, rotation)
