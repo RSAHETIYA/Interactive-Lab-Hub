@@ -285,12 +285,221 @@ After that, Git will ask you to login to your GitHub account to push the updates
 
 # Lab 2 Part 2
 
-Pull Interactive Lab Hub updates to your repo.
+## Idea
 
-Modify the code from last week's lab to make a new visual interface for your new clock. You may [extend the Pi](Extending%20the%20Pi.md) by adding sensors or buttons, but this is not required.
+The main goal for this part will be to make the clock more interactive with the user. This will be accomplished with a visual timer that provides helpful cues to the user based on what they want to accomplish. 
+Parts used in this lab were
+- Raspberry Pi
+- Mini PiTFT Display
+- Green Button LED
+- Rotary Encoder
+- Electrocapacitive Touch Sensor
+- Very cool and technologically advanced sound making plushie dinosaur 
 
-As always, make sure you document contributions and ideas from others explicitly in your writeup.
+## Sketches/Storyboards
 
-You are permitted (but not required) to work in groups and share a turn in; you are expected to make equal contribution on any group work you do, and N people's group project should look like N times the work of a single person's lab. What each person did should be explicitly documented. Make sure the page for the group turn in is linked to your Interactive Lab Hub page. 
+### Sketches
+
+![Sketch](Part2Sketch1.jpeg)
+![Sketch](Part2Sketch2.jpeg)
+
+1) General display view of timer/clock
+
+2) Turn of rotary encoder to increase visual when setting timer
+
+3) Rotary encoder button press sequence when in timer mode
+
+4) Turn off alarm through electrocapacitive sensor
+
+5) General device sketch of entire system put together
+
+### Storyboard
+
+![Sketch](Part2Storyboard.jpeg)
+
+1) Viewing the time when passing by through water bucket visualizations
+
+2) Using the clock device as a helpful, non-instrusive aid when studying
+
+3) Interacting with timer set buttons/encoders to create a timer
+
+4) Using the device as an alarm on the bedside table after setting timer
+
+5) Turning off alarm (after waking up from 4 hours of sleep lol) through electrocapacitive touch "button"
+
+## Code
+
+**Entire code integration is located within screen_clock.py*
+
+Draws the empty bins/buckets
+```
+def draw_bins():
+    draw.line([(210, height-11), (230, height-11)], fill=(255, 0, 0))
+    draw.line([(210, height-11), (210, height-70)], fill=(255, 0, 0))
+    draw.line([(230, height-11), (230, height-70)], fill=(255, 0, 0))
+
+    draw.line([(130, height-11), (170, height-11)], fill=(255, 255, 0))
+    draw.line([(130, height-11), (130, height-80)], fill=(255, 255, 0))
+    draw.line([(170, height-11), (170, height-80)], fill=(255, 255, 0))
+
+    draw.line([(10, height-11), (100, height-11)], fill=(0, 255, 0))
+    draw.line([(10, height-11), (10, height-90)], fill=(0, 255, 0))
+    draw.line([(100, height-11), (100, height-90)], fill=(0, 255, 0))
+```
+
+Controls display when clock mode is "on"
+```
+def clock_display():
+
+    draw_bins()
+
+    draw.text((5, 5), "Clock :D", font=font, fill=(255, 255, 255))
+
+    now = datetime.datetime.now().time()
+    hour = now.hour
+    binaryhour = bin(hour).replace("0b", "").zfill(5)
+
+    if binaryhour[4] == "1":
+        draw.line([(230, 10), (225, 10)], fill=(0, 0, 255)) 
+    else:
+        draw.line([(230, 10), (225, 10)], fill=(255, 0, 0)) 
+    if binaryhour[3] == "1":
+        draw.line([(215, 10), (210, 10)], fill=(0, 0, 255)) 
+    else:
+        draw.line([(215, 10), (210, 10)], fill=(255, 0, 0))
+    if binaryhour[2] == "1":
+        draw.line([(200, 10), (195, 10)], fill=(0, 0, 255))
+    else:
+         draw.line([(200, 10), (195, 10)], fill=(255, 0, 0))
+    if binaryhour[1] == "1":
+        draw.line([(185, 10), (180, 10)], fill=(0, 0, 255)) 
+    else:
+        draw.line([(185, 10), (180, 10)], fill=(255, 0, 0)) 
+    if binaryhour[0] == "1":
+        draw.line([(170, 10), (165, 10)], fill=(0, 0, 255)) 
+    else:
+        draw.line([(170, 10), (165, 10)], fill=(255, 0, 0)) 
+
+    for i in range(hour * 3):
+        draw.line([(11, height-12-i), (99, height-12-i)], fill=(0, 0, 255))
+
+    for i in range(now.minute):
+        draw.line([(131, height-12-i), (169, height-12-i)], fill=(0, 0, 255))
+    
+    for i in range(now.second):
+        draw.line([(211, height-12-i), (229, height-12-i)], fill=(0, 0, 255))
+```
+
+Manages different states within the timer mode
+```
+def timer_display():
+    draw_bins()
+
+    #draw.text((5, 5), "Timer :D", font=font, fill=(255, 255, 255))
+    global timer_set
+    global current_timer_denom
+    global current_timer
+    global button_held
+    global hour_timer
+    global minute_timer
+    global second_timer
+    global start_time
+    global primary_mode
+
+    if not rotary_button.value and not button_held:
+        button_held = True
+
+    draw_timer()
+
+    if (timer_set):
+        draw.text((5, 5), "Timer Started :D", font=font, fill=(255, 255, 255))
+        if calculate_time_left().days < 0:
+            primary_mode = 2
+        
+    else:
+        draw.text((5, 5), "Timer :D", font=font, fill=(255, 255, 255))
+        if (current_timer_denom == "hours"):
+            hour_timer = abs(-encoder.position) % 24
+            if rotary_button.value and button_held:
+                button_held = False
+                current_timer_denom = "minutes"
+        elif (current_timer_denom == "minutes"):
+            minute_timer = abs(-encoder.position) % 60
+            if rotary_button.value and button_held:
+                button_held = False
+                current_timer_denom = "seconds"
+        else:
+            second_timer = abs(-encoder.position) % 60
+            green_button.LED_on(100)
+            if rotary_button.value and button_held:
+                button_held = False
+                current_timer_denom = "hours"
+                green_button.LED_off()
+            if (green_button.is_button_pressed()):
+                current_timer = 3600 * hour_timer + 60 * minute_timer + second_timer
+                green_button.LED_off()
+                current_timer_denom = "hours"
+                timer_set = True
+                start_time = datetime.datetime.now()
+```
+
+Calculates time left for timer
+```
+def calculate_time_left():
+    global start_time
+    global hour_timer
+    global minute_timer
+    global second_timer
+
+    now = datetime.datetime.now()
+    time_elapsed = now - start_time
+    time_elapsed = datetime.timedelta(seconds=current_timer) - time_elapsed
+    seconds = time_elapsed.total_seconds()
+    hour_timer_div = divmod(seconds, 3600)     
+    hour_timer = int(hour_timer_div[0])   
+    minute_timer_div = divmod(hour_timer_div[1], 60)  
+    minute_timer = int(minute_timer_div[0])          
+    second_timer_div = divmod(minute_timer_div[1], 1) 
+    second_timer = int(second_timer_div[0])
+    
+    return time_elapsed
+```
+
+Draws timer buckets in accordance to time left
+```
+def draw_timer():
+
+    global hour_timer
+    global minute_timer
+    global second_timer
+
+    for i in range(hour_timer * 3):
+                draw.line([(11, height-12-i), (99, height-12-i)], fill=(0, 0, 255))
+    for i in range(minute_timer):
+        draw.line([(131, height-12-i), (169, height-12-i)], fill=(0, 0, 255))
+    
+    for i in range(second_timer):
+        draw.line([(211, height-12-i), (229, height-12-i)], fill=(0, 0, 255))
+```
+
+Tracks end of timer state and "listens" for touch input before resetting
+
+```
+if (primary_mode == 2):
+        draw.rectangle((0, 0, width, height), outline=0, fill=(255, 0, 0))
+        draw.text((120, 65), "BEEP!!!", font=font, fill=(255, 255, 255))
+        if (mpr121[0].value):
+            current_timer = 0
+            timer_set = False
+            current_timer_denom = "hours"
+            primary_mode = 0
+```
+
+
+## Video
+
+SOUND WARNING when you see the dinosaur!!! 
+
+[Link to Video](https://youtu.be/aQ3BOyx5Lls)
 
 
