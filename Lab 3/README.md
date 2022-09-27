@@ -103,11 +103,22 @@ From a remote browser on the same network, check to make sure your webserver is 
 
 Storyboard and/or use a Verplank diagram to design a speech-enabled device. (Stuck? Make a device that talks for dogs. If that is too stupid, find an application that is better than that.) 
 
+Main idea will be to develop a pant plot or maybe structure that holds plants in museums to help manage plant life. 
+
 \*\***Post your storyboard and diagram here.**\*\*
+
+![storyboard](./storyboard.jpg)
 
 Write out what you imagine the dialogue to be. Use cards, post-its, or whatever method helps you develop alternatives or group responses. 
 
 \*\***Please describe and document your process.**\*\*
+
+The planting structure will contain a number of useful tools for the user to interact with:
+- Ask the pot whether the plant needs to be watered and it will relay back yes or no and the appropriate amount of water needed
+- During the watering process, it will relay whether the user is close to overwatering the plant
+- If the plant is kept in a museum or as some sort of display feature, it will alert people too close that might damage it
+- If the plant is poisonous it will let passerbys now
+- If the plant is kept outside, it will alert passerbys of weather conditions and temperature
 
 ### Acting out the dialogue
 
