@@ -141,6 +141,29 @@ For Part 2, you will redesign the interaction with the speech-enabled device usi
 2. What are other modes of interaction _beyond speech_ that you might also use to clarify how to interact?
 3. Make a new storyboard, diagram and/or script based on these reflections.
 
+## Documentation
+
+*Feedback received in part 1 was mostly centered around dialogue and the script; however, not entirely sure how technoloigcally feasible it will be to implement. Will summarize key takeaways and better implementations at the afterwards.*
+
+1. The biggest consideration to take into account, as I am aiming at designing a fully autonomous system is timing. It will be crucial to make sure the camera is recording for enough time before "cutting" the user off and going to interpret the speech. It will also be necessary to ensure that the camera is not trying to record and "speak" at the same time. Anticipation of misunderstandings will be somewhat limited/accounted for, as I will use a small vocabulary base and make it so only one keyword (the first said) will be accounted for when making a decision on what to say back to the user. Finally, it will be necessary to give back helpful responses to the users that provide accurate insight.
+
+2. The easiest and probably the most helpful interaction that can be added is lighting to indicate when the pot is at different stages in terms of recording, interpeting, and talking (and idling). This can be accomplished either through an LED or just using the RGB display or a combination of both. Another mode of interaction that can be added is proximity or gesture sensing. This will continue to make the experience hands free, and would also help with computational load, as the pi will not be in an always on state constantly recording. This would also put the user at ease if they are concerned with being recorded. 
+
+3. ### Storyboard
+![Sketch](lab3storyboard.jpeg)
+- User walks close to the plant to activate proximity sensor and then recording
+- User sees that pot is recording once LED turns on
+- User speaks into plant pot while timer is visually going down
+- User stops speaking once timer has visually run out
+- User waits on pot to interpret what they just said
+- User listens to pot telling it relevant info. while LED is flashing
+- User listens to pot telling it relevant info. while LED is flashing
+- User walks away once pot has stopped speaking to not activate proximity sensor again
+
+4. ### Diagram
+![Sketch](lab3diagram.jpeg)
+
+
 ## Prototype your system
 
 The system should:
@@ -150,7 +173,98 @@ The system should:
 
 *Document how the system works*
 
+**Hardware/software utilized*
+- Proxmity sensor
+- Webcam
+- Green LED
+- RGB Display
+- Text2Speech
+- Speech2Text
+- Weather API
+
+**Entire code integration is present within [lab3.py](/lab3.py)*
+
+```
+if state == "Idle":
+        green_button.LED_off()
+        disp.fill(color565(0, 0, 0))
+        text = ""
+        if (apds.proximity > 10):
+            state = "Recording"
+    elif state == "Recording":
+        green_button.LED_on(100)
+        record_p = subprocess.Popen(record, shell=True)
+        disp.fill(color565(0, 255, 0))
+        time.sleep(1)
+        disp.fill(color565(55, 205, 0))
+        time.sleep(1)
+        disp.fill(color565(155, 155, 0))
+        time.sleep(1)
+        disp.fill(color565(205, 105, 0))
+        time.sleep(1)
+        disp.fill(color565(255, 55, 0))
+        time.sleep(1)
+        disp.fill(color565(0, 0, 255))
+        wf = wave.open("recorded_mono.wav", "rb")
+        rec = KaldiRecognizer(model, wf.getframerate(), '["weather", "water", "time", "[unk]"]')
+        state = "Interpret"
+    elif state == "Interpret":
+        green_button.LED_off()
+        data = wf.readframes(4000)
+        if len(data) == 0:
+            state = "Talking"
+        else:
+            if rec.AcceptWaveform(data):
+                (rec.Result())
+            else:
+                (rec.PartialResult())
+
+            txt = json.loads(rec.FinalResult()).get("text")
+            if txt != "":
+                text += txt
+                state = "Talking"
+    elif state == "Talking":
+        disp.fill(color565(0, 0, 0))
+        talk_text = ""
+        if text == "water":
+            if random.random() < .5:
+                talk_text = "Yes, it is time to water the plant now"
+            else:
+                talk_text = "No, it is not time to water the plant"
+        elif text == "weather":
+            response = requests.get(api_endpoint, params=weather_params)
+            response.raise_for_status()
+            weather_data = response.json()
+            i = 0
+            for list in weather_data["list"]:
+                print(list["pop"])
+                if i == 4:
+                    talk_text = "it will not rain within the next 12 hours"
+                    break
+                if list["pop"] > .8:
+                    talk_text = "it will rain within the next 12 hours"
+                    break
+                i+=1
+        elif text == "time":
+            now = datetime.now()
+            time = now.strftime("%H:%M")
+            talk_text = "It is " + time
+        else:
+            talk_text = "Sorry, I cannot interpret what you just said, please try again"
+        
+        say = subprocess.Popen('say() { local IFS=+;/usr/bin/mplayer -ao alsa -really-quiet -noconsolecontrols "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=$*&tl=en"; } ; say "' +  talk_text + '"', shell=True)
+        if say.poll() is None:
+            if talk_text == "Yes, it is time to water the plant now":
+                time.sleep(5)
+                talk_text = "Ok, now stop watering"
+                say = subprocess.Popen('say() { local IFS=+;/usr/bin/mplayer -ao alsa -really-quiet -noconsolecontrols "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=$*&tl=en"; } ; say "' +  talk_text + '"', shell=True)
+                time.sleep(1)
+            state = "Idle"
+```
+
 *Include videos or screencaptures of both the system and the controller.*
+
+[Link to Demo Video](https://www.youtube.com/watch?v=ck0bsNOzOrg)
 
 ## Test the system
 Try to get at least two people to interact with your system. (Ideally, you would inform them that there is a wizard _after_ the interaction, but we recognize that can be hard.)
@@ -158,18 +272,17 @@ Try to get at least two people to interact with your system. (Ideally, you would
 Answer the following:
 
 ### What worked well about the system and what didn't?
-\*\**your answer here*\*\*
+\*\**Most people said that the commands provided helpful and accurate information. However, they felt that functionality overall was a little lacking, and more could be implemented to make the pot feel actually useful. Probably the biggest criticism was that conversation felt unnatural and also one line commands were weird in practice.*\*\*
 
 ### What worked well about the controller and what didn't?
 
-\*\**your answer here*\*\*
+\*\**I didn't use a controller for this lab, as the pi was fully autonomous.*\*\*
 
 ### What lessons can you take away from the WoZ interactions for designing a more autonomous version of the system?
 
-\*\**your answer here*\*\*
+\*\**While I did not use a controller for the lab, I believe I do have some helpful insights from my autonomous testing into making the system better. The first I would do is make it so that the pot is able to interpret sentence commands. Technically, the code is already there, but I was not sure, and it is very primitive in the sense that the current version of the pot will simply take the first key word said and "run with it". The second is possibly integrating the gesture functionality. While the proximity feature does the job, I feel like using only gestures to activate the pot will make it much more intutive for the user and also prevent any accidental triggerings of the pot.*\*\*
 
 
 ### How could you use your system to create a dataset of interaction? What other sensing modalities would make sense to capture?
 
-\*\**your answer here*\*\*
-
+\*\**Perhaps the biggest would be capturing how often the user actually waters the plants in respect to multiple factors. The first would be, did the user bother to check with the pot before watering the plant? The second would be, did the user check with the pot, and did they disregard the advice the pot gave? The third would be, how often does the user even interact with the pot/plant in the first place? Finally, when the user waters the plant, do they heed the overwatering warning the pot signals or gives out? Sensors that could aid in the capturing of this data include soil hydration sensors, proximity/gesture sensors, and perhaps CV/cameras (although that might be overkill).*\*\*
