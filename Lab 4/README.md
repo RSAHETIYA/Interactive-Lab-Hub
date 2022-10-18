@@ -475,4 +475,5 @@ while True:
 ![Sketch](sideview.JPG)
 
 **Video demonstrating final prototype usage**
+
 [![Video](https://img.youtube.com/vi/qply7gzr-ZM/0.jpg)](https://www.youtube.com/watch?v=qply7gzr-ZM)
