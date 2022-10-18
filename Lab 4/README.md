@@ -176,10 +176,34 @@ Usually, sensors need to positioned in specific locations or orientations to mak
 
 **\*\*\*Draw 5 sketches of different ways you might use your sensor, and how the larger device needs to be shaped in order to make the sensor useful.\*\*\***
 
+![Sketch](ec_sketches.jpeg)
+
+>Sketches:
+> 1. Slim electrolytic capacitive touch sensor keyboard. Will be easily portable and contain less moving parts to ensure durability. 
+> 2. Study chair that tracks amount of time someone has been studying through electrolytic capacitive plate on the seat. Will be hooked up to some sort of reward/penalization system for amount of time spent studying.
+> 3. Cup handle with electrolytic capacitive touch sensing to send warnings to the user when they touch the handle on whether the cup is too hot or not. Should be able to detect "touch" right before the user actually touches the handle.
+> 4. Guitar learner buddy with strings hooked up to electrolytic capacitive touch sensors. Will help users learn guitar by giving feedback on if they are touching the correct strings or not.
+> 5. Rail detector to ensure that blind people are able to get realtime feedback on if they are touching the correct guiding rail. Could also be expanded to other demographics such as the elderly.
+
 **\*\*\*What are some things these sketches raise as questions? What do you need to physically prototype to understand how to anwer those questions?\*\*\***
+
+>There are multiple questions/concerns to address:
+> - How far will sensing pads need to be placed to allow for comfortable use of the device?
+> - How far will sensing pads need to be placed to prevent accidental triggers or multiple triggers at once?
+> - How to write all sensing pads to the sensor without intersections or overlap?
+> - Will the device require multiple hands or even fingers at once? Will the sensor be able to keep up with multiples inputs?
+> - Will any additional sensors be used and will that cause too much delay in sensing touch?
+> - What is the threshold before the sensor detects an input on one of the pads?
+> - How many sensor pads will the device be constrained to (i.e. the max amount of inputs)?
+
+>With regards to the physical prototyping:
+> - Will have to test out pad distances and see what distance thresholds are.
+> - Will have to see if maybe matrix formations are possible or if the sensor is limited to 12 inputs.
+> - Will have to see sensor lag in general and processing speed.
 
 **\*\*\*Pick one of these designs to prototype.\*\*\***
 
+> Electrocapacitive touch sensor piano keyboard
 
 ### Part D
 ### Physical considerations for displaying information and housing parts
@@ -221,16 +245,42 @@ Think about how you want to present the information about what your sensor is se
  
 **\*\*\*Sketch 5 designs for how you would physically position your display and any buttons or knobs needed to interact with it.\*\*\***
 
+![Sketch](piano_sketches.jpeg)
+>Sketch differentiators:
+> 1. Whether to have evenly spaced keys or keys resembling a typical piano. Will be harder to implement "normal" piano keys due to height and width differences causing some potential for misinputs.
+> 2. Portability factors: maybe foldable to stowaway easier and travel with, maybe modular for the same reasons and also allows for the ability to swap out components as needed.
+> 3. Not sure what components/layout of the components will be on the top panel. Will for sure use a display and rotary encoder for volume control. Pi will most likely be embedded underneath. Not sure if camera speaker with be flush with top panel or will lay on top due to size.
+
 **\*\*\*What are some things these sketches raise as questions? What do you need to physically prototype to understand how to anwer those questions?\*\*\***
+
+>There are multiple questions/concerns to address:
+> - Evenly spaced or normal piano keys?
+> - Speaker width/dimensions cause some sort of pain with building?
+> - How to attach touch sensor to all key pads?
+> - What will display be used for and will it have much meaning/ is it even necessary?
+> - Volume slider or knob? Is it possible to even make a slider?
+> - Any form factor changes?
+
+>With regards to the physical prototyping:
+> - Will experiment with different models/designs.
+> - Will take into account key pad routing first when building prototypes, as that is probably the most tedious and important part.
+> - Will look into speaker dimensions.
+> - Will try different top panel designs and pick the one most feasible to implement and use.
 
 **\*\*\*Pick one of these display designs to integrate into your prototype.\*\*\***
 
+> Will use a design consisting of evenly sized keys consisting of display, speaker, and volume knob attached to the top panel. Will iron out more details after actually physically prototyping and seeing what cardboard designs are possible. Will also see what looks aesthetically pleasing.
+
 **\*\*\*Explain the rationale for the design.\*\*\*** (e.g. Does it need to be a certain size or form or need to be able to be seen from a certain distance?)
+
+> This should be one of the easier designs to actually make and will also look similar to a normal piano keyboard. Size will be 12 inches wide (1 inch for each key in an octave) with height dependent on raspberry pi height and depth dependent on cardboard scraps available.
 
 Build a cardbord prototype of your design.
 
 **\*\*\*Document your rough prototype.\*\*\***
 
+![Sketch](rough_proto.jpeg)
+> Prototype will be documented in part 2.
 
 LAB PART 2
 
@@ -275,3 +325,154 @@ Document all the prototypes and iterations you have designed and worked on! Agai
 * "Works like": shows what the device can do
 * "Acts like": shows how a person would interact with the device
 
+### Documentation
+
+**Parts used**
+> Software:
+> - musicalbeeps library
+> - mpr121 library
+> - seesaw library
+> - st7789 library
+
+> Hardware:
+> - Camera as a speaker
+> - Mpr121 touch sensor
+> - Copper tape as touch pads
+> - Rotary encoder for volume control
+> - Mini display for volume level indication
+
+**Code**
+*located within [lab4.py](./lab4.py)*
+```
+import time
+import board
+import busio
+import musicalbeeps
+import digitalio as digitalio2
+
+import adafruit_mpr121
+from adafruit_seesaw import seesaw, rotaryio, digitalio
+
+from PIL import Image, ImageDraw, ImageFont
+import adafruit_rgb_display.st7789 as st7789
+from adafruit_rgb_display.rgb import color565
+
+# Setup SPI bus using hardware SPI:
+spi = board.SPI()
+
+# Configuration for CS and DC pins (these are FeatherWing defaults on M0/M4):
+cs_pin = digitalio2.DigitalInOut(board.CE0)
+dc_pin = digitalio2.DigitalInOut(board.D25)
+reset_pin = None
+
+
+# Config for display baudrate (default max is 24mhz):
+BAUDRATE = 64000000
+
+disp = st7789.ST7789(
+    spi,
+    cs=cs_pin,
+    dc=dc_pin,
+    rst=reset_pin,
+    baudrate=BAUDRATE,
+    width=135,
+    height=240,
+    x_offset=53,
+    y_offset=40,
+)
+
+height = disp.width  # we swap height/width to rotate it to landscape!
+width = disp.height
+image = Image.new("RGB", (width, height))
+rotation = 90
+
+# Get drawing object to draw on image.
+draw = ImageDraw.Draw(image)
+disp.image(image, rotation)
+
+# Turn on the backlight
+backlight = digitalio2.DigitalInOut(board.D22)
+backlight.switch_to_output()
+backlight.value = True
+
+draw.rectangle((0, 0, width, height), outline=0, fill=(0, 255, 255))
+
+i2c = busio.I2C(board.SCL, board.SDA)
+seesaw = seesaw.Seesaw(board.I2C(), addr=0x36)
+seesaw.pin_mode(24, seesaw.INPUT_PULLUP)
+button = digitalio.DigitalIO(seesaw, 24)
+button_held = False
+encoder = rotaryio.IncrementalEncoder(seesaw)
+
+mpr121 = adafruit_mpr121.MPR121(i2c)
+player = musicalbeeps.Player(volume = 0.1,
+                            mute_output = False)
+
+
+
+while True:
+
+    player.volume  = (-encoder.position % 100) / 100
+
+    disp.fill(color565(0, int(255 * player.volume), 0))
+    if mpr121[0].value:
+        player.play_note("A", .25)
+    elif mpr121[1].value:
+        player.play_note("A#", .25)
+    elif mpr121[2].value:
+        player.play_note("B", .25)
+    elif mpr121[3].value:
+        player.play_note("C", .25)
+    elif mpr121[4].value:
+        player.play_note("C#", .25)
+    elif mpr121[5].value:
+        player.play_note("D", .25)
+    elif mpr121[6].value:
+        player.play_note("D#", .25)
+    elif mpr121[7].value:
+        player.play_note("E", .25)
+    elif mpr121[8].value:
+        player.play_note("F", .25)
+    elif mpr121[9].value:
+        player.play_note("F#", .25)
+    elif mpr121[10].value:
+        player.play_note("G", .25)
+    elif mpr121[11].value:
+        player.play_note("G#", .25)
+    else:
+        player.play_note("pause", .25)
+    time.sleep(.25)  # Small delay to keep from spamming output messages.
+```
+
+**Prototyping process**
+> - Original idea is located in part 1
+> - For the most part, continued with the original sketch
+> - Was unable to place the speaker/camera beneath the top panel as it was too big, so just laid it on top
+> - Electrolytic capacitive touch sensors required careful planning with regards to routing the copper tape
+> - Were quite a few troubleshooting issues with the touch sensors due to some spillover charge problems
+> - Display was originally planned to hold a numerical value of the volume, but there were issues with the draw library, so a LED indicator was used instead
+> - Attempted to use keys similar to a normal piano, but was too difficult to also account for electrolytic capacitive routing
+
+**Final prototype description**
+> - Display goes from black to green (increase G value) based on current volume
+> - Rotary encoder is not constrained by bounds so rotating multiple times to the right for example causes volume to go from max -> min. This is desired
+> - 12 keys which are labeled represent the 4th octave
+> - Keys can only be played once at a time (monotonic) due to limitations of music playing library
+> - Keys are spaced evenly apart, which aids with monotonic playing
+> - Limitations of music playing library cause sort of a stutter with held notes as the player essentially plays -> stops for a millisecond -> plays within the loop.
+
+**Final prototype photos**
+
+*Electrolytic routing*
+![Sketch](routing.JPG)
+*Internals before top panel is placed on*
+![Sketch](internals.JPG)
+*Final top view*
+![Sketch](topview.JPG)
+*Final front view*
+![Sketch](frontview.JPG)
+*Final side view*
+![Sketch](sideview.JPG)
+
+**Video demonstrating final prototype usage**
+[![Video](https://img.youtube.com/vi/qply7gzr-ZM/0.jpg)](https://www.youtube.com/watch?v=qply7gzr-ZM)
