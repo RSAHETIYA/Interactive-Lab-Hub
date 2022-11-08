@@ -207,10 +207,10 @@ Find at least one class (more are okay) partner, and design a distributed applic
 **\*\*\*2. Diagram the architecture of the system.\*\*\*** 
 
 >Implementation in real life:
-> ![Picture](IMG_7997.jpg)
+> ![Picture](IMG_7FA2F46B7667-1.jpeg)
 
 >Implementation in prototype:
-> ![Picture](IMG_7997.jpg)
+> ![Picture](IMG_E76543364D64-1.jpeg)
 
 **\*\*\*3. Build a working prototype of the system.\*\*\*** 
 
