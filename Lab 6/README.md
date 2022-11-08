@@ -198,11 +198,11 @@ def on_message(cleint, userdata, msg):
 ### Make it your own
 
 Find at least one class (more are okay) partner, and design a distributed application together based on the exercise we asked you to do in this lab.
-> I had a pretty erratic schedule over the weekend, as I was at a family wedding, so I decided to go at the lab alone to not inconvenience others.
+>I had a pretty erratic schedule over the weekend, as I was at a family wedding, so I decided to go at the lab alone to not inconvenience others.
 
 **\*\*\*1. Explain your design\*\*\***
 
-> I made a IoT trashcan prototype mainly based on my work in product studio this semester. One of our ideas was to create trashcans that essentially determien how full they are, and this will help sanitation/garbage collection agencies navigate the city and pick up trash. This should also help with alleviating garbage truck traffic throughout by optimizing routes in addition to providing for a cleaner city with less trash overflow. Given the parts I had within the kit, I decided to go with the proximity sensor as the way to detect if the bin was full. I had a lego trashcan model that seemed to be the perfect fit, and, while I would have preferred a multi laser sensor/sensor that could detect distances over multiple areas, the included sensor would be good enough for a rough prototype. 
+>I made a IoT trashcan prototype mainly based on my work in product studio this semester. One of our ideas was to create trashcans that essentially determien how full they are, and this will help sanitation/garbage collection agencies navigate the city and pick up trash. This should also help with alleviating garbage truck traffic throughout by optimizing routes in addition to providing for a cleaner city with less trash overflow. Given the parts I had within the kit, I decided to go with the proximity sensor as the way to detect if the bin was full. I had a lego trashcan model that seemed to be the perfect fit, and, while I would have preferred a multi laser sensor/sensor that could detect distances over multiple areas, the included sensor would be good enough for a rough prototype. 
 
 **\*\*\*2. Diagram the architecture of the system.\*\*\*** 
 
@@ -210,13 +210,20 @@ Find at least one class (more are okay) partner, and design a distributed applic
 
 **\*\*\*3. Build a working prototype of the system.\*\*\*** 
 
+>Picture of final system:
+> ![Picture](IMG_7997.jpg)
 
+>UI explained:
+> There really is not much to the UI of the system other than the light turning between red and green for closed and open. I think that is pretty intuitive, as it follows traditional color meanings. For the fleet manager, they also only have to consider inputting text, but I feel that would be better done with a full application rather than a terminal only interface. Perhaps in the terminal I could have also prompted the user for an Open or Close bin command.
+
+>Challenges:
+> I was unable to get the servo motor to work after multiple tries with different batteries and servo ports. Not entirely sure what I did wrong, as I was able to use it in previous labs, but because of that problem, I ended up just ditching it.
+> Because the proximity sensor only senses distance in "one point", the trash in this prototype example needed to be positioned over only a specific part of the trash can floor. In a real world version, I would like to use a more sophisticated sensor that would be able to account for varying levels of trash with respect to their position within the bin.
+> Struggled with linking my laptop to the MQTT broker due to not having the correct SSL certification. Don't know why this works, but was able to just download a ceritifier python library that gave me the credentials I needed.
 
 **\*\*\*4. Document the working prototype in use.\*\*\*** 
 
-> [Link to video]('https://youtu.be/zRZNK_Zf-OE')
-
-**\*\*\*5. Future Work.\*\*\*** 
+>[Link to video]('https://youtu.be/zRZNK_Zf-OE')
 
 <!--**\*\*\*5. BONUS (Wendy didn't approve this so you should probably ignore it)\*\*\*** get the whole class to run your code and make your distributed system BIGGER.-->
 

@@ -55,16 +55,26 @@ sensor = adafruit_apds9960.apds9960.APDS9960(i2c)
 sensor.enable_proximity = True
 
 topic = 'IDD/rs2248/lab6'
+global bin_full
+bin_full = False
 
 def on_connect(client, userdata, flags, rc):
     print(f"connected with result code {rc}")
     client.subscribe(topic)
 
 def on_message(cleint, userdata, msg):
+    global bin_full
     # if a message is recieved on the colors topic, parse it and set the color
     if msg.topic == topic:
         #colors = list(map(int, msg.payload.decode('UTF-8').split(',')))
-        draw.rectangle((0, 0, width, height*0.5), fill=(0, 255, 0))
+        message = msg.payload.decode('UTF-8')
+        print(message)
+        if message == "Close bin":
+            draw.rectangle((0, 0, width, height), fill=(255, 0, 0))
+            bin_full = True
+        if message == "Open bin":
+            draw.rectangle((0, 0, width, height), fill=(0, 255, 0))
+            bin_full = False
         disp.image(image)
 
 client = mqtt.Client(str(uuid.uuid1()))
@@ -90,10 +100,10 @@ signal.signal(signal.SIGINT, handler)
 
 # our main loop
 while True:
-
+    
     # if we press the button, send msg to cahnge everyones color
-    print(sensor.proximity)
-    #draw.rectangle((0, height*0.5, width, height), fill=color[:3])
+    if (sensor.proximity > 190 and not bin_full):
+        client.publish(topic, "bin is full")
+        bin_full = True
     disp.image(image)
     time.sleep(.01)
-    
