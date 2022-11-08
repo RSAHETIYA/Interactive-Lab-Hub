@@ -200,14 +200,23 @@ def on_message(cleint, userdata, msg):
 Find at least one class (more are okay) partner, and design a distributed application together based on the exercise we asked you to do in this lab.
 > I had a pretty erratic schedule over the weekend, as I was at a family wedding, so I decided to go at the lab alone to not inconvenience others.
 
-**\*\*\*1. Explain your design\*\*\*** For example, if you made a remote controlled banana piano, explain why anyone would want such a thing.
+**\*\*\*1. Explain your design\*\*\***
+
+> I made a IoT trashcan prototype mainly based on my work in product studio this semester. One of our ideas was to create trashcans that essentially determien how full they are, and this will help sanitation/garbage collection agencies navigate the city and pick up trash. This should also help with alleviating garbage truck traffic throughout by optimizing routes in addition to providing for a cleaner city with less trash overflow. Given the parts I had within the kit, I decided to go with the proximity sensor as the way to detect if the bin was full. I had a lego trashcan model that seemed to be the perfect fit, and, while I would have preferred a multi laser sensor/sensor that could detect distances over multiple areas, the included sensor would be good enough for a rough prototype. 
+
+**\*\*\*2. Diagram the architecture of the system.\*\*\*** 
+
+> 
+
+**\*\*\*3. Build a working prototype of the system.\*\*\*** 
 
 
-**\*\*\*2. Diagram the architecture of the system.\*\*\*** Be clear to document where input, output and computation occur, and label all parts and connections. For example, where is the banana, who is the banana player, where does the sound get played, and who is listening to the banana music?
 
-**\*\*\*3. Build a working prototype of the system.\*\*\*** Do think about the user interface: if someone encountered these bananas somewhere in the wild, would they know how to interact with them? Should they know what to expect?
+**\*\*\*4. Document the working prototype in use.\*\*\*** 
 
-**\*\*\*4. Document the working prototype in use.\*\*\*** It may be helpful to record a Zoom session where you should the input in one location clearly causing response in another location.
+> [Link to video]('https://youtu.be/zRZNK_Zf-OE')
+
+**\*\*\*5. Future Work.\*\*\*** 
 
 <!--**\*\*\*5. BONUS (Wendy didn't approve this so you should probably ignore it)\*\*\*** get the whole class to run your code and make your distributed system BIGGER.-->
 
