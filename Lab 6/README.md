@@ -96,6 +96,19 @@ Once connected, you should be able to see all the messages under the IDD topic. 
 
 **\*\*\*Consider how you might use this messaging system on interactive devices, and draw/write down 5 ideas here.\*\*\***
 
+>Sketches:
+> 1. Remote controlled watering plant device. This should help users to be able to take care of their house plants if there are not home for an extended period of time (i.e. vacation).
+> ![Sketch1](IMG_0062.jpg)
+> 2. Synchronized alarms. I envision this to be most useful for a camp field trip type of situation. For example, during a camping trip, a teacher can set all of the students' alarms depedning on what time the activities are.
+> ![Sketch2](IMG_0063.jpg)
+> 3. Robotically controlled arms. By linking up a user's arms to gyro sensors, a user can then control robotic arms located remotely. This could be useful for scenarios where the user is unable to get close to the object they need to manipulate.
+> ![Sketch3](IMG_0064.jpg)
+> 4. Sign language inclusive chatroom. By using a camera to vision track sign language movements, it can be poossible to convert it into audible speech for other users in the chatroom facilitating the overall social interaction.
+> ![Sketch4](IMG_0065.jpg)
+> 5. Remote music playing. By creating a music instrument capable of sensing where on the instrument the user is touching at the moment, it can be possible to translate those motions into audible sound maybe listened to by a conductor or instructor elsewhere.
+> ![Sketch5](IMG_0066.jpg)
+
+
 ### Part C
 ### Streaming a Sensor
 
@@ -117,7 +130,28 @@ Plug in the capacitive sensor board with the Qwiic connector. Use the alligator 
 
 **\*\*\*Include a picture of your setup here: what did you see on MQTT Explorer?\*\*\***
 
+> I saw that the pi was sending messages into the your/topic/here subdirectory concerning which "twizzler" was currently being touched.
+> ![Sketch](IMG_7994.jpg)
+
 **\*\*\*Pick another part in your kit and try to implement the data streaming with it.\*\*\***
+ 
+> This piece of code implements streaming for the rotary encoder
+```
+seesaw = seesaw.Seesaw(board.I2C(), addr=0x36)
+seesaw.pin_mode(24, seesaw.INPUT_PULLUP)
+button = digitalio.DigitalIO(seesaw, 24)
+button_held = False
+encoder = rotaryio.IncrementalEncoder(seesaw)
+
+last = encoder.position
+
+while True:
+    if encoder.position != last:
+        val = "The encoder has been rotated to: " + str(encoder.position)
+        client.publish(topic, val)
+    last = encoder.position
+    time.sleep(0.25)
+```
 
 
 ### Part D
@@ -150,14 +184,24 @@ You may ask "but what if I missed class?" Am I not admitted into the collective 
 Of course not! You can go to [https://one-true-colornet.glitch.me/](https://one-true-colornet.glitch.me/) and become one with the ColorNet on the inter-webs. Glitch is a great tool for prototyping sites, interfaces and web-apps that's worth taking some time to get familiar with if you have a chance. Its not super pertinent for the class but good to know either way. 
 
 **\*\*\*Can you set up the script that can read the color anyone else publish and display it on your screen?\*\*\***
-
+> This is already implemented most of the way in color.py on the message callback, and all that needs to be changed is to fill the in the rectangle completely
+```
+def on_message(cleint, userdata, msg):
+    # if a message is recieved on the colors topic, parse it and set the color
+    if msg.topic == topic:
+        colors = list(map(int, msg.payload.decode('UTF-8').split(',')))
+        draw.rectangle((0, 0, width, height), fill=color)
+        disp.image(image)
+```
 
 ### Part E
 ### Make it your own
 
 Find at least one class (more are okay) partner, and design a distributed application together based on the exercise we asked you to do in this lab.
+> I had a pretty erratic schedule over the weekend, as I was at a family wedding, so I decided to go at the lab alone to not inconvenience others.
 
 **\*\*\*1. Explain your design\*\*\*** For example, if you made a remote controlled banana piano, explain why anyone would want such a thing.
+
 
 **\*\*\*2. Diagram the architecture of the system.\*\*\*** Be clear to document where input, output and computation occur, and label all parts and connections. For example, where is the banana, who is the banana player, where does the sound get played, and who is listening to the banana music?
 
