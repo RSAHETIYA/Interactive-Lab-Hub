@@ -206,20 +206,77 @@ Find at least one class (more are okay) partner, and design a distributed applic
 
 **\*\*\*2. Diagram the architecture of the system.\*\*\*** 
 
-> 
+>Implementation in real life:
+> ![Picture](IMG_7997.jpg)
+
+>Implementation in prototype:
+> ![Picture](IMG_7997.jpg)
 
 **\*\*\*3. Build a working prototype of the system.\*\*\*** 
 
->Picture of final system:
+**Parts used:**
+> Software:
+>  - MQTT library
+>  - Ceritfi library
+>  - apds9960 library
+>  - st7789 library
+
+> Hardware:
+>  - apds9960 for garbage level sensing
+>  - st7789 for full or not full indication
+>  - pi as trash bin device
+>  - laptop as trash fleet handler device
+>  - lego trash can for ... trash bin :D
+
+**Code used:**
+>Garbage Bin:
+```
+def on_message(cleint, userdata, msg):
+    global bin_full
+    if msg.topic == topic:
+        message = msg.payload.decode('UTF-8')
+        print(message)
+        if message == "Close bin":
+            draw.rectangle((0, 0, width, height), fill=(255, 0, 0))
+            bin_full = True
+        if message == "Open bin":
+            draw.rectangle((0, 0, width, height), fill=(0, 255, 0))
+            bin_full = False
+        disp.image(image)
+
+...
+
+while True:
+    if (sensor.proximity > 190 and not bin_full):
+        client.publish(topic, "bin is full")
+        bin_full = True
+    disp.image(image)
+    time.sleep(.01)
+```
+
+>Fleet Manager:
+```
+def on_message(cleint, userdata, msg):
+    if msg.topic == topic and msg.payload.decode('UTF-8') == "bin is full":
+        print("The bin has filled up")
+    if msg.topic == topic and msg.payload.decode('UTF-8') == "Open bin":
+        print("Bin 1 has opened up, current bin layout is:")
+        print("O || O || O || O")
+    if msg.topic == topic and msg.payload.decode('UTF-8') == "Close bin":
+        print("Bin 1 has filled up, current bin layout is:")
+        print("X || O || O || O")
+```
+
+**Picture of final system:**
 > ![Picture](IMG_7997.jpg)
 
->UI explained:
+**UI explained**
 > There really is not much to the UI of the system other than the light turning between red and green for closed and open. I think that is pretty intuitive, as it follows traditional color meanings. For the fleet manager, they also only have to consider inputting text, but I feel that would be better done with a full application rather than a terminal only interface. Perhaps in the terminal I could have also prompted the user for an Open or Close bin command.
 
->Challenges:
-> I was unable to get the servo motor to work after multiple tries with different batteries and servo ports. Not entirely sure what I did wrong, as I was able to use it in previous labs, but because of that problem, I ended up just ditching it.
-> Because the proximity sensor only senses distance in "one point", the trash in this prototype example needed to be positioned over only a specific part of the trash can floor. In a real world version, I would like to use a more sophisticated sensor that would be able to account for varying levels of trash with respect to their position within the bin.
-> Struggled with linking my laptop to the MQTT broker due to not having the correct SSL certification. Don't know why this works, but was able to just download a ceritifier python library that gave me the credentials I needed.
+**Challenges**
+> 1. I was unable to get the servo motor to work after multiple tries with different batteries and servo ports. Not entirely sure what I did wrong, as I was able to use it in previous labs, but because of that problem, I ended up just ditching it.
+> 2. Because the proximity sensor only senses distance in "one point", the trash in this prototype example needed to be positioned over only a specific part of the trash can floor. In a real world version, I would like to use a more sophisticated sensor that would be able to account for varying levels of trash with respect to their position within the bin.
+> 3. Struggled with linking my laptop to the MQTT broker due to not having the correct SSL certification. Don't know why this works, but was able to just download a ceritifier python library that gave me the credentials I needed.
 
 **\*\*\*4. Document the working prototype in use.\*\*\*** 
 
