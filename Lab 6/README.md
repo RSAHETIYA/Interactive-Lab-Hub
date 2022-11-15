@@ -131,7 +131,7 @@ Plug in the capacitive sensor board with the Qwiic connector. Use the alligator 
 **\*\*\*Include a picture of your setup here: what did you see on MQTT Explorer?\*\*\***
 
 > I saw that the pi was sending messages into the your/topic/here subdirectory concerning which "twizzler" was currently being touched.
-> ![Sketch](IMG_7994.jpg)
+> ![Sketch](IMG_7994.JPG)
 
 **\*\*\*Pick another part in your kit and try to implement the data streaming with it.\*\*\***
  
@@ -268,7 +268,7 @@ def on_message(cleint, userdata, msg):
 ```
 
 **Picture of final system:**
-> ![Picture](IMG_7997.jpg)
+> ![Picture](IMG_7997.JPG)
 
 **UI explained**
 > There really is not much to the UI of the system other than the light turning between red and green for closed and open. I think that is pretty intuitive, as it follows traditional color meanings. For the fleet manager, they also only have to consider inputting text, but I feel that would be better done with a full application rather than a terminal only interface. Perhaps in the terminal I could have also prompted the user for an Open or Close bin command.
@@ -280,7 +280,7 @@ def on_message(cleint, userdata, msg):
 
 **\*\*\*4. Document the working prototype in use.\*\*\*** 
 
->[Link to video]('https://youtu.be/zRZNK_Zf-OE')
+> [Link to video](https://youtu.be/zRZNK_Zf-OE)
 
 <!--**\*\*\*5. BONUS (Wendy didn't approve this so you should probably ignore it)\*\*\*** get the whole class to run your code and make your distributed system BIGGER.-->
 
