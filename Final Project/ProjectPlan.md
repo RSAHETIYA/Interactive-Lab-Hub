@@ -3,9 +3,7 @@
 Sam Willenson (shw58), Rahul Sahetiya (rs2248)
 
 ## Big Idea
-We will be creating two pianos that will be linked together to facilitate a teaching experience. Keys played on one piano will translate into LEDs on the keys of the
-other piano turning on and vice versa. Eventually, it will be possible to add a Simon game type of functionality to the keyboard to add another way to interact with the 
-devices.
+We will be creating two pianos that will be linked together to facilitate a teaching experience. Keys played on one piano will translate into LEDs turning on above the keys of the other piano, and vice versa. Eventually, we intend to add a secondary mode to these pianos, where users can play a game of musical Simon using the keyboards. This adds another way to interact with the devices, as well as a gamification twist on standard education methods. Simon can be used as a way to test students’ ability to add onto a group of notes and stay within key.
 
 ## Timeline
 Week 1 (11/15 - 11/22): 
@@ -16,6 +14,7 @@ Week 1 (11/15 - 11/22):
 Week 2 (11/22 - 11/29) - “Demonstrate that your project is functioning well enough for somebody to use and interact with it. This presentation will just be to the 
 teaching team.”
 - Finish writing code for music functionality of piano
+- Finish writing code for LED representations
 - Complete building two rough prototypes of pianos
 - Demonstrate functionality with one “teaching” piano and one “learning” piano
 
@@ -39,11 +38,12 @@ The part we are envisioning to use are:
 - Speakers
 
 ## Risks/Contingencies
-- Multi-key press if sensing is not precise enough
+- Multi-key press if user is not precise with playing motions (user accidentally touches note they do not intend to play i.e. pinky grazes a black key when going for a C note. This can trigger an unintended note to be played)
 - Simon game proves too difficult to develop
 - Can’t acquire all parts in time
 - Program to control music functionality is inefficient causing a delayed sound
 - Messaging protocol in use is very delayed/high latency
+
 
 ## Fall Back Plan
 The biggest stretch for this project is making and implementing the Simon game functionality. If unable to, given our current plans, we should still be able to 
